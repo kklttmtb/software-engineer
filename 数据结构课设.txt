@@ -1,0 +1,349 @@
+/*利用邻接矩阵创建一个无向图，利用函数分别使用三种算法判断无向图是否为连通图。
+三种算法分别为深度优先遍历算法，广度优先遍历算法，并查集算法。
+分别使用这三种算法并使用clock函数对三者的运行时间进行记录，以此来对比三者的效率。*/
+
+
+#include<stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+#include<time.h>
+
+#define MNUM 20000
+#define VertexType char
+#define FALSE 0
+#define TRUE 1
+
+using namespace std;
+/*struct Arcc
+{
+	int uu;
+	int vv;
+	int weight;
+};*/
+int arc[MNUM][MNUM];
+typedef struct Node
+{
+	char data[20];
+	int visit;
+	int visit2;
+}Node,*node;
+typedef struct
+{
+	Node vex[MNUM];
+	int vexnum,arcnum;
+}AMG,*PAMG;
+typedef struct {
+    int   data[MNUM];
+    int   front, rear;
+}Queue;
+//返回一个0-MNUM随机数
+int randomnum2(int x,int y)
+{
+    int a;
+    srand((unsigned int)(y+time(NULL)));//设置随机数种子，使每次运行获取的随机数不同
+    a=rand()%x;
+    return a;
+}
+/***********************   无向图的创建   **************************/
+//定位顶点
+int Located(AMG G, char c[])
+{
+	int i;
+	for (i=0;i<G.vexnum;i++)
+	{
+		if (strcmp(G.vex[i].data,c)==0)return i;
+	}	
+	printf("CANOT FIND THE POINT");
+	return -1;
+}
+
+void creUDN(PAMG G)
+{
+	int ii,kk;
+	FILE *fp = NULL;
+	 if((fp=fopen("data0001.txt","r"))==NULL)
+    {
+     printf("open the file is error!\n");
+     exit(0);
+	 }
+	 cout<<"请输入社交网络个体数量和二者之间关系的的数量"<<endl;
+	cin>>G->vexnum>>G->arcnum;//输入顶点数和边数
+	/*
+	int jj;
+	for(ii=0;ii<G->vexnum;ii++)
+	{
+		for(jj=0;jj<G->vexnum;jj++)
+		{
+			arc[ii][jj]=MAXINT;
+			//if(ii==jj)arc[ii][jj]=0;
+		}
+	}*/
+	for (ii=0;ii<G->vexnum; ii++)//输入顶点,visit置零
+	{
+		/*cin >> G->vex[ii].data;*///输入顶点
+		fscanf(fp,"%s",G->vex[ii].data);
+		G->vex[ii].visit=0;
+	}
+	fclose(fp);
+    fp = NULL;
+	printf("节点创建完成，请选择输入方式\n*******随机1/自行输入0********\n");
+		int sel=0;
+	scanf("%d",&sel);
+	if(sel==0)
+	{
+		for(kk=0;kk<G->arcnum;)
+        {
+	        char v1[20],v2[20];
+            cin>> v1 >> v2;
+	           Located(*G, v2);
+	           Located(*G, v1);
+               arc[Located(*G, v2)][Located(*G, v1)]=1;
+               arc[Located(*G, v1)][Located(*G, v2)]=1;
+	           kk++;
+	}
+	}
+	else if(sel==1)
+	{
+	int RAN_X,RAN_Y=0;
+	for(kk=0;kk<G->arcnum;)
+	{
+		int fal=0;
+		RAN_X=randomnum2(G->vexnum,RAN_Y);
+	    RAN_Y=randomnum2(G->vexnum,RAN_X);
+	    if(RAN_Y!=RAN_X)
+	    {
+		    arc[RAN_X][RAN_Y]=1;
+	        arc[RAN_Y][RAN_X]=1;
+		   /* printf("%d %d  ",RAN_X,RAN_Y);*/
+	        kk++;
+			printf("%d ",kk);
+        }
+		else{fal++;}
+		if(fal==1){printf("miss");}
+	}
+	}
+	else printf("选择输入边的方式错误");
+
+}
+/***********************     深度遍历     *******************/
+void visitVex(PAMG G, int v)
+{  
+    cout<<G->vex[v].data<<" ";  
+}  
+
+int FirstAdjVex(PAMG G,int v)  
+{  
+    int i ;  
+    for(i = 0; i<G->vexnum; i++)  
+        if( arc[v][i] ) return i;  
+    if(i == (G->vexnum  -1)) return -1;  
+    return -1;   
+  
+}  
+  
+int NextAdjVex(PAMG G,int v,int w)  
+{  
+    int i;  
+    for( i = w+1; i<G->vexnum; i++)//+1  
+        if(arc[v][i]) return i;  
+    if(i == (G->vexnum  -1)) return -1;  
+    return -1;  
+  
+}  
+
+void DFS(PAMG G,int v){  
+    G->vex[v].visit = true;  
+    visitVex( G,  v); //访问第v 个顶点  
+    for(int w = FirstAdjVex(G,v); w>=0; w = NextAdjVex(G,v,w)){  
+        if(! G->vex[w].visit) DFS(G,w); //w未访问过，递归DFS搜索  
+  
+    }  
+}  
+
+void DFSTraverse(PAMG G){//  
+    int v;  
+	for( v = 0; v < G->vexnum; ++v) G->vex[v].visit = false;  
+    for( v = 0; v < G->vexnum; )   
+    {    if(!G->vex[v].visit) 
+	   {
+		DFS( G, v); //v未访问过，从vi开始DFS搜索
+		break;
+	   }
+         ++v;
+	}
+  
+}  
+
+void printMGraph(PAMG G){  
+    cout<<"邻接矩阵已经创建，邻接矩阵为："<<endl;  
+    for(int i=0;i<G->vexnum;i++){  
+        for(int j=0;j<G->vexnum;j++)  
+            cout<<arc[i][j]<<" ";  
+        cout<<endl;  
+    }  
+}  
+
+void checkDFS(PAMG G)
+{
+	int jj=0;
+	for (int ii=0;ii<G->vexnum; ii++)//visit看节点
+	{
+		
+		if(G->vex[ii].visit==0)
+		{
+			jj++;
+		}
+	}
+	if(jj==0) printf("\n由深度遍历判断无向图为连通图\n");
+	else printf("没有遍历完全\n由深度遍历判断无向图压根不是连通图\n");
+}
+/**************     队列操作     **********************/
+//队列创建
+void InitQueue(Queue *Q)
+{
+    Q->front = Q->rear = 0;
+}
+//入队
+void EnQueue(Queue *Q, int e)
+{
+    if (Q->rear+1 == Q->front)
+        return ;
+
+    Q->data[Q->rear] = e;
+    Q->rear = (Q->rear+1);
+}
+//判空
+int QueueEmpty(Queue *Q)
+{
+    if (Q->front == Q->rear)
+        return TRUE;
+    else
+        return FALSE;
+}
+//出队
+void DeQueue(Queue *Q, int *e)
+{
+    if (Q->front == Q->rear)
+        return ;
+    
+    *e = Q->data[Q->front];
+    Q->front = (Q->front+1);
+}
+/*****************     广度遍历啊     ************************/
+void BFSTraverse(PAMG G)
+{
+    int i, j;
+    Queue Q;
+
+    for (i=0; i<G->vexnum; ++i)
+         G->vex[i].visit2 = FALSE;
+
+    InitQueue(&Q);
+
+    for (i=0; i<G->vexnum; ++i)
+    {
+        if (!G->vex[i].visit2)
+        {
+            G->vex[i].visit2 = TRUE;
+            printf("%s ", G->vex[i].data);
+            EnQueue(&Q, i);
+            while ( !QueueEmpty( &Q ) )
+            {
+                DeQueue( &Q ,  &i );
+                for ( j=0 ; j<G->vexnum ; ++j )
+                {
+                    if (!G->vex[j].visit2 && arc[i][j]!=0)
+                    {
+                        G->vex[j].visit2 = TRUE;
+                        printf("%s ", G->vex[j].data);
+                        EnQueue(&Q, j);
+                    }
+                }
+            }
+			break;
+        }
+    }
+}
+
+void checkBFS(PAMG G)
+{
+	int jj=0;
+	for (int ii=0;ii<G->vexnum; ii++)//visit看节点
+	{
+		
+		if(G->vex[ii].visit2==0)
+		{
+			jj++;
+		}
+	}
+	if(jj==0) printf("\n由广度遍历判断无向图为连通图\n");
+	else printf("没有遍历完全\n由广度遍历判断无向图压根不是连通图\n");
+
+}
+/**********************   并查集   *************************/
+int set[MNUM];
+int find(int x)
+{
+
+ return x==set[x]?x:(set[x]=find(set[x]));//递归查找集合的代表元素，含路径压缩。
+
+}
+void  UnionFind(PAMG G)
+{
+	int cnt=0;
+	for(int i=0; i<G->vexnum; i++)
+	{
+		set[i]=i;
+	}
+	for(int i=0;i<G->vexnum;i++)
+	{
+		for(int j=0; j<i+1 ;j++)
+		{
+			if(arc[i][j]==1)
+			{
+                int fx=find(i),
+					fy=find(j);
+				set[fy]=fx;
+			}
+		}
+	}
+	for(int i=0;i<G->vexnum ;++i)
+	{
+		if(set[i]==i)
+        {
+			 ++cnt;
+		}
+	}
+	printf("\n一共有%d个集合\n",cnt);
+	if(cnt==1) printf("\n由并查集判断无向图为连通图\n");
+	else printf("\n由并查集判断无向图压根不是连通图\n");
+}
+/****************     主函数    **************************/
+int main( )
+{  
+      
+    PAMG G;
+	G=new (AMG);
+    creUDN(G);  
+   /* printMGraph(G);  */
+	clock_t start1,start2,start3,fin1,fin2,fin3;
+    printf("\n无向图邻接矩阵的深度遍历结果为:\n");
+	start1=clock();
+    DFSTraverse(G);
+	checkDFS(G);
+	fin1=clock();
+	printf("深度遍历时间为:%lf\n",(double(fin1-start1)/1000));
+	printf("\n无向图邻接矩阵的广度遍历结果为:\n");
+	start2=clock();
+    BFSTraverse(G);
+	checkBFS(G);
+	fin2=clock();
+	printf("广度遍历时间为:%lf\n",(double(fin2-start2)/1000));
+	start3=clock();
+	UnionFind(G);
+	fin3=clock();
+	printf("并查集时间为:%lf\n",(double(fin3-start3)/1000));
+	system("pause");
+	return 0;
+}  
