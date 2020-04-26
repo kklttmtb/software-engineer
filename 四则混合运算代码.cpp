@@ -4,11 +4,11 @@
 #include <iomanip>
 #include <stdio.h>
 
-int random_0(int range)//Éú³ÉÕûÊı
+int random_0(int range)//ç”Ÿæˆæ•´æ•°
 {
 	return rand() % range + 1;
 }
-float random_1(int range)//Éú³ÉĞ¡Êı
+float random_1(int range)//ç”Ÿæˆå°æ•°
 {
 	float xiaoshu;
 	L0:
@@ -19,7 +19,7 @@ float random_1(int range)//Éú³ÉĞ¡Êı
 	}
 	return xiaoshu;
 }
-char GetOperation(int oper)//Éú³ÉËæ»úÔËËã·ûoper=5¼Ó¼õ =6¼Ó¼õ³Ë³ı
+char GetOperation(int oper)//ç”Ÿæˆéšæœºè¿ç®—ç¬¦oper=5åŠ å‡ =6åŠ å‡ä¹˜é™¤
 {
 
 	L1:switch (oper)
@@ -34,19 +34,19 @@ char GetOperation(int oper)//Éú³ÉËæ»úÔËËã·ûoper=5¼Ó¼õ =6¼Ó¼õ³Ë³ı
 		default:return 0; break;
 	}
 }
-void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
+void haveparen(int range,int oper,int num,int text)//æœ‰æ‹¬å·çš„ç®—å¼
 {
-	int parenl/*×óÀ¨ºÅ*/, parenr/*ÓÒÀ¨ºÅ*/,shuzi0,zifu;
+	int parenl/*å·¦æ‹¬å·*/, parenr/*å³æ‹¬å·*/,shuzi0,zifu;
 	float shuzi1;
 	FILE *fp;
 	fp = fopen("testlby.txt", "w");
-	parenl = random_0(3);                            //Ëæ»úÓÒÀ¨ºÅ
-	parenr = random_0(4-parenl)+1+parenl;            //Ëæ»ú×óÀ¨ºÅ
-	if (num == 1)                                    //ÓĞÀ¨ºÅÕûÊıËãÊ½
+	parenl = random_0(3);                            //éšæœºå³æ‹¬å·
+	parenr = random_0(4-parenl)+1+parenl;            //éšæœºå·¦æ‹¬å·
+	if (num == 1)                                    //æœ‰æ‹¬å·æ•´æ•°ç®—å¼
 	{
 		for (int i = 1; i <= 4; i++)
 		{
-			if (parenl == i)                         //´òÓ¡ÓÒÀ¨ºÅ
+			if (parenl == i)                         //æ‰“å°å³æ‹¬å·
 			{
 				printf("(");
 				if (text == 0)
@@ -54,12 +54,12 @@ void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
 					fprintf(fp, "(");
 				}
 			}
-			printf("%d", shuzi0 = random_0(range));    //´òÓ¡Êı×Ö
+			printf("%d", shuzi0 = random_0(range));    //æ‰“å°æ•°å­—
 			if (text == 0)
 			{
 				fprintf(fp, "%d", shuzi0);
 			}
-			if (parenr == i + 1)                        //´òÓ¡×óÀ¨ºÅ
+			if (parenr == i + 1)                        //æ‰“å°å·¦æ‹¬å·
 			{
 				printf(")");
 				if (text == 0)
@@ -67,7 +67,7 @@ void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
 					fprintf(fp, ")");
 				}
 			}
-			if (i + 1 == 5)                                //´òÓ¡µÈºÅ½áÊøËãÊ½
+			if (i + 1 == 5)                                //æ‰“å°ç­‰å·ç»“æŸç®—å¼
 			{
 				printf("=\n");
 				if (text == 0)
@@ -76,7 +76,7 @@ void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
 				}
 				break;
 			}
-			char a = GetOperation(oper);                  //´òÓ¡ÔËËã·ûºÅ
+			char a = GetOperation(oper);                  //æ‰“å°è¿ç®—ç¬¦å·
 			printf("%c", a);
 			if (text == 0)
 			{
@@ -85,7 +85,7 @@ void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
 		}
 	}
 	
-	if (num == 0)                                   //ÓĞÀ¨ºÅĞ¡Êı
+	if (num == 0)                                   //æœ‰æ‹¬å·å°æ•°
 	{
 		for (int i = 1; i <= 4; i++)
 		{
@@ -133,13 +133,13 @@ void haveparen(int range,int oper,int num,int text)//ÓĞÀ¨ºÅµÄËãÊ½
 	
 
 }
-void noparen(int range, int oper, int num,int text)//ÎŞÀ¨ºÅËãÊ½
+void noparen(int range, int oper, int num,int text)//æ— æ‹¬å·ç®—å¼
 {
 	int shuzi0;
 	float shuzi1;
 	FILE *fp;
 	fp = fopen("testlby.txt", "w");
-	if (num == 1)                                 //ÎŞÀ¨ºÅÕûÊı
+	if (num == 1)                                 //æ— æ‹¬å·æ•´æ•°
 	{
 		for (int i = 1; i <= 4; i++)
 		{
@@ -166,7 +166,7 @@ void noparen(int range, int oper, int num,int text)//ÎŞÀ¨ºÅËãÊ½
 			}
 		}
 	}
-	if (num == 0)                                     //ÎŞÀ¨ºÅĞ¡Êı
+	if (num == 0)                                     //æ— æ‹¬å·å°æ•°
 	{
 		for (int i = 1; i <= 4; i++)
 		{
@@ -199,8 +199,8 @@ void noparen(int range, int oper, int num,int text)//ÎŞÀ¨ºÅËãÊ½
 int Scan(int &count, int &range, int &oper, int &num, int &text)
 {
 	int paren;
-	printf("×Ô¶¯Éú³ÉËÄÔòÔËËãÁ·Ï°Ìâ³ÌĞò\n");
-	printf("ÊäÈë³öÌâÊıÁ¿(×î´ó100)£º\n");
+	printf("è‡ªåŠ¨ç”Ÿæˆå››åˆ™è¿ç®—ç»ƒä¹ é¢˜ç¨‹åº\n");
+	printf("è¾“å…¥å‡ºé¢˜æ•°é‡(æœ€å¤§100)ï¼š\n");
 	scanf("%d", &count);
 	if (count > 100)
 	{
@@ -208,10 +208,10 @@ int Scan(int &count, int &range, int &oper, int &num, int &text)
 	}
 	else if (count <= 0)
 	{
-		printf("´íÎóµÄÌâÄ¿ÊıÁ¿\n");
+		printf("é”™è¯¯çš„é¢˜ç›®æ•°é‡\n");
 		return -1;
 	}
-	printf("ÊäÈë×î´óÖµ(Ä¬ÈÏ×î´ó9999)£º\n");
+	printf("è¾“å…¥æœ€å¤§å€¼(é»˜è®¤æœ€å¤§9999)ï¼š\n");
 	scanf("%d", &range);
 	if (range > 9999)
 	{
@@ -219,48 +219,48 @@ int Scan(int &count, int &range, int &oper, int &num, int &text)
 	}
 	else if (count <= 0)
 	{
-		printf("´íÎóµÄÊı×Ö·¶Î§\n");
+		printf("é”™è¯¯çš„æ•°å­—èŒƒå›´\n");
 		return -1;
 	}
-	printf("ËãÊ½ÖĞÊÇ·ñÓĞĞ¡Êı(0Ğ¡Êı1ÕûÊı)£º\n");
+	printf("ç®—å¼ä¸­æ˜¯å¦æœ‰å°æ•°(0å°æ•°1æ•´æ•°)ï¼š\n");
 	scanf("%d", &num);
 	if (num != 0 && num != 1)
 	{
-		printf("Ä¬ÈÏÎªÕûÊı\n");
+		printf("é»˜è®¤ä¸ºæ•´æ•°\n");
 		num = 1;
 	}
-	printf("ËãÊ½ÖĞÊÇ·ñÓĞ³Ë³ı(0ÓĞ1ÎŞ)£º\n");
+	printf("ç®—å¼ä¸­æ˜¯å¦æœ‰ä¹˜é™¤(0æœ‰1æ— )ï¼š\n");
 	scanf("%d", &oper);
 	if (oper != 0 && oper != 1)
 	{
-		printf("Ä¬ÈÏÎŞ³Ë³ı\n");
+		printf("é»˜è®¤æ— ä¹˜é™¤\n");
 		oper = 0;
 	}
-	printf("ËãÊ½ÖĞÊÇ·ñÓĞÀ¨ºÅ(0ÓĞ1ÎŞ)£º\n");
+	printf("ç®—å¼ä¸­æ˜¯å¦æœ‰æ‹¬å·(0æœ‰1æ— )ï¼š\n");
     scanf("%d", &paren);
 	if (paren != 0 && paren != 1)
 	{ 
-		printf("Ä¬ÈÏÎŞÀ¨ºÅ\n");
+		printf("é»˜è®¤æ— æ‹¬å·\n");
 		paren = 1;
 	}
-	printf("ÊÇ·ñÊä³öÎÄ¼ş(0ÊÇ1·ñ)£º\n");
+	printf("æ˜¯å¦è¾“å‡ºæ–‡ä»¶(0æ˜¯1å¦)ï¼š\n");
 	scanf("%d", &text);
 	if (text != 0 && text != 1)
 	{
-		printf("Ä¬ÈÏ²»Êä³ö\n");
+		printf("é»˜è®¤ä¸è¾“å‡º\n");
 		text = 1;
 	}
 	return paren;
 }
 int main()
 {
-	int count/*ËãÊ½ÊıÁ¿*/, range/*Êı×Ö·¶Î§*/, oper/*À¨ºÅÓĞÎŞ*/, num/*ÊÇ·ñĞ¡Êı*/, text/*ÊÇ·ñÎÄ¼ş*/;
+	int count/*ç®—å¼æ•°é‡*/, range/*æ•°å­—èŒƒå›´*/, oper/*æ‹¬å·æœ‰æ— */, num/*æ˜¯å¦å°æ•°*/, text/*æ˜¯å¦æ–‡ä»¶*/;
 	int i=Scan(count,range,oper,num,text);
 	if (i == 0)
 	{
 		for (int j = 0; j < count; j++)
 		{
-			haveparen(range, oper, num, text);//ÓĞÀ¨ºÅ
+			haveparen(range, oper, num, text);//æœ‰æ‹¬å·
 
 		}
 	}
@@ -268,7 +268,7 @@ int main()
 	{
 		for (int j = 0; j < count; j++)
 		{ 
-		    noparen(range, oper, num, text);//Ã»À¨ºÅ
+		    noparen(range, oper, num, text);//æ²¡æ‹¬å·
 		}
 	}
 	else
