@@ -217,7 +217,7 @@ int Scan(int &count, int &range, int &oper, int &num, int &text)
 	{
 		count = 9999;
 	}
-	else if (count <= 0)
+	else if (range <= 0)
 	{
 		printf("错误的数字范围\n");
 		return -1;
