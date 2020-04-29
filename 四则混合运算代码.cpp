@@ -19,7 +19,7 @@ float random_1(int range)//生成小数
 	}
 	return xiaoshu;
 }
-char GetOperation(int oper)//生成随机运算符oper=5加减 =6加减乘除
+char GetOperation(int oper)//生成随机运算符oper=1加减 =0加减乘除
 {
 
 	L1:switch (oper)
@@ -39,7 +39,7 @@ void haveparen(int range,int oper,int num,int text)//有括号的算式
 	int parenl/*左括号*/, parenr/*右括号*/,shuzi0,zifu;
 	float shuzi1;
 	FILE *fp;
-	fp = fopen("testlby.txt", "w");
+	fp = fopen("testlby.txt", "a");
 	parenl = random_0(3);                            //随机右括号
 	parenr = random_0(4-parenl)+1+parenl;            //随机左括号
 	if (num == 1)                                    //有括号整数算式
@@ -138,7 +138,7 @@ void noparen(int range, int oper, int num,int text)//无括号算式
 	int shuzi0;
 	float shuzi1;
 	FILE *fp;
-	fp = fopen("testlby.txt", "w");
+	fp = fopen("testlby.txt", "a");
 	if (num == 1)                                 //无括号整数
 	{
 		for (int i = 1; i <= 4; i++)
