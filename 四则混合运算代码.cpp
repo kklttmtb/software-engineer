@@ -256,6 +256,11 @@ int main()
 {
 	int count/*算式数量*/, range/*数字范围*/, oper/*括号有无*/, num/*是否小数*/, text/*是否文件*/;
 	int i=Scan(count,range,oper,num,text);
+	fp = fopen("testlby.txt","w");
+	if (fclose(fp))
+	{
+		printf("error cant remake");
+	}
 	if (i == 0)
 	{
 		for (int j = 0; j < count; j++)
